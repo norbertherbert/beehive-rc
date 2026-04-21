@@ -1,0 +1,46 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="description" content="Sample illustrating the use of Web Bluetooth / Device Info (Async Await)."><meta name="viewport" content="width=device-width,initial-scale=1"><title>BeeHive</title><link rel="icon" href="./favicon.ico"><script defer="defer" src="main.js"></script></head><body><div id="main"><div id="beehive_logo"><span style="font-size: 16px; font-weight: bold;">BeeHive <i>- for</i></span><div class="custom-select"><select id="version-select" data-current-version="AT3v1.3"></select></div>&nbsp; <img src="./images/android-chrome-192x192.png" height="35px;"></div><div id="device-div"><label>Device:</label> <b><span id="device_name_span"></span></b> <span id="connection_status_span"></span><div id="device1-div"><button id="request_bluetooth_device_button">Connect a BLE Device</button> <button id="forget_bluetooth_device_button" style="display:none;">Forget Device</button> <button id="connect_bluetooth_device_button" style="display:none;">Connect</button> <button id="disconnect_bluetooth_device_button" style="display:none;">Disconnect</button> <button id="refresh_connection_status_button" style="display:none;">Refresh Status</button> <button id="usb_connect_device_button">Connect a USB Device</button> <button id="usb_disconnect_device_button" style="display:none;">Disconnnect Device</button> <a id="beequeen_link" href="https://nano-things.net/beequeen/AT3v1.3" target="_blank" style="margin-left: 8px; text-decoration: none; font-size: small;"><img src="./images/beequeen.png" height="25px" style="position: relative; top: 7px;"> BeeQueen</a></div></div><div id="bluetooth_services_div" style="display:none;"><label>Bluetooth Services</label><div id="bluetooth-services1-div"><button id="get_bluetooth_device_info_button">Get Device Info</button> <button id="import_config_button">Import Config</button> <button id="export_config_button">Export Config</button> <button id="start_cli_button">Start CLI</button> <button id="firmware_update_button">Firmware Update</button> <button id="remove_bond_button">Remove Bond</button> <button id="tilt_monitoring_button">Tilt Monitoring</button></div></div><div id="usb_services_div" style="display:none;"><label>USB Services</label><div id="usb-services1-div"><button id="usb_import_config_button">Import Config</button> <button id="usb_export_config_button">Export Config</button> <button id="usb_start_cli_button">Start CLI</button></div></div><div id="terminal-div"><label>Terminal</label><div id="terminal1-div"><div id="log_div"></div><div id="cli-form"><input id="command_input" autocomplete="off" style="display:none;"></div><button id="stop_cli_button">Stop CLI</button></div></div><div id="save-confirm-modal" class="modal" style="display:none;"><div class="modal-content"><span class="modal-close">&times;</span><p>Do you want to save the requested config in a file?</p><button id="save_config_button">Save</button></div></div><div id="tilt_monitoring_modal" class="modal" style="display:none;"><div class="modal-content"><span class="modal-close">&times;</span><h3>Tilt Angles:</h3><div id="tilt_angles_div"></div><img id="tilt_angles_img" src="" height="200px" \></div></div><div id="select_fw_type_modal" class="modal" style="display:none;"><div class="modal-content"><span class="modal-close">&times;</span><p>Please select an option:</p><button id="mcu_fw_upgrade_button">MCU Firmware Upgrade</button> <button id="ble_fw_upgrade_button">BLE Firmware Upgrade</button></div></div><div id="loader_div"></div><script>function goTo(selectEl) {
+                const url = selectEl.value;
+                if (!url) return;                 // ignore the placeholder
+                window.location.href = url;       // same-tab navigation
+            }
+
+            const device_name_span = document.querySelector('#device_name_span');
+            const connection_status_span = document.querySelector('#connection_status_span');
+            const request_bluetooth_device_button = document.querySelector('#request_bluetooth_device_button');
+            const forget_bluetooth_device_button = document.querySelector('#forget_bluetooth_device_button');
+            const connect_bluetooth_device_button = document.querySelector('#connect_bluetooth_device_button');
+            const disconnect_bluetooth_device_button = document.querySelector('#disconnect_bluetooth_device_button');
+            const refresh_connection_status_button = document.querySelector('#refresh_connection_status_button');
+            const bluetooth_services_div = document.querySelector('#bluetooth_services_div');
+            const get_bluetooth_device_info_button = document.querySelector('#get_bluetooth_device_info_button');
+            const import_config_button = document.querySelector('#import_config_button');
+            const export_config_button = document.querySelector('#export_config_button');
+            const start_cli_button = document.querySelector('#start_cli_button');
+            const firmware_update_button = document.querySelector('#firmware_update_button');
+            const select_fw_type_modal = document.getElementById('select_fw_type_modal');
+            const mcu_fw_upgrade_button = document.getElementById('mcu_fw_upgrade_button');
+            const ble_fw_upgrade_button = document.getElementById('ble_fw_upgrade_button');
+            const remove_bond_button = document.querySelector('#remove_bond_button');
+            const tilt_monitoring_button = document.querySelector('#tilt_monitoring_button');
+            const log_div = document.querySelector('#log_div');
+            const command_input = document.querySelector('#command_input');
+            const stop_cli_button = document.querySelector('#stop_cli_button');
+            const save_config_button = document.querySelector('#save_config_button');
+            const tilt_monitoring_modal = document.querySelector('#tilt_monitoring_modal');
+            const tilt_angles_div = document.querySelector('#tilt_angles_div');
+            const tilt_angles_img = document.querySelector('#tilt_angles_img');
+            const loader_div = document.querySelector('#loader_div');
+
+            const usb_connect_device_button = document.querySelector('#usb_connect_device_button');
+            const usb_disconnect_device_button = document.querySelector('#usb_disconnect_device_button');
+            const usb_services_div = document.querySelector('#usb_services_div');
+            const usb_import_config_button = document.querySelector('#usb_import_config_button');
+            const usb_export_config_button = document.querySelector('#usb_export_config_button');
+            const usb_start_cli_button = document.querySelector('#usb_start_cli_button');
+                  
+            let gblConfig = '';
+            let gblDevice = null;
+            let gblDevEUIHex = '';
+            let gblIsAT2 = false;
+            let gblGetTiltParamsInterval;
+            let gblBeequeenTab = null;</script><script type="module" src="./main.js"></script></div></body></html>
